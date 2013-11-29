@@ -15,13 +15,62 @@
 
 \section{First Problem}
 text text text
-\[\bigtriangledown\cdot\left(\frac{1}{\rho}\bigtriangledown P\right) + \frac{\omega^2}{B}P = 0\]
+\[\nabla\cdot\left(\frac{1}{\rho}\nabla P\right) + \frac{\omega^2}{B}P = 0\]
 as $\rho$ is a constant it can be taken out of the gradient and multiplied through the equation. 
-\[\bigtriangledown^2 P + k^2 p = 0\]
+\[\nabla^2 P + k^2 p = 0\]
 \[i.e. \qquad\frac{\partial^2 P}{\partial x^2} + \frac{\partial^2 P}{\partial y^2} + k^2 p = 0\]
+If we assume a solution of the form $P(x,y) = X(x)Y(y)$, substituting in to the equation gives:
+\[X''Y + XY'' + k^2XY = 0\]
+\[\frac{X''}{X} + \frac{Y''}{Y} + k^2 = 0\]
+\[\frac{X''}{X} + k^2 = -\frac{Y''}{Y} = \alpha^2\]
+\[\text{so } \qquad Y'' + \alpha^2 Y = 0\]
+so Y takes the form $Y = Ae^{icy} \implies Y' = Aice^{icy} \implies Y'' = -Ac^2 e^{icy}$
+\[\text{so} \qquad -Ac^2e^{icy} + \alpha^2Ae^{icy} = 0\]
+\[c^2 = \alpha^2\]
+\[c = \pm \alpha\]
 
-\section{blegh}
-\begin{equation}
-x^2
-\end{equation}
+\section{giving it another go \ldots}
+text text text
+
+\begin{eqnarray*}
+\nabla\cdot\left(\frac{1}{\rho}\nabla P\right) + \frac{\omega^2}{B}P & = & 0 \\
+\end{eqnarray*}
+as $\rho$ is a constant it can be taken out of the gradient and multiplied through the equation. 
+\begin{eqnarray*}
+\nabla^2 P + k^2 p & = & 0\\
+\frac{\partial^2 P}{\partial x^2} + \frac{\partial^2 P}{\partial y^2} + k^2 p & = & 0 \qquad\\
+\end{eqnarray*}
+If we assume a solution of the form $P(x,y) = X(x)Y(y)$, substituting in to the equation gives:
+\begin{eqnarray*}
+X''Y + XY'' + k^2XY & = & 0\\
+\frac{X''}{X} + \frac{Y''}{Y} + k^2 & = & 0\\
+\frac{X''}{X} + k^2 & = &  -\frac{Y''}{Y} = \alpha^2\\
+\text{so } \qquad Y'' + \alpha^2 Y & = & 0\\
+\end{eqnarray*}
+so Y takes the form $Y = Ae^{icy} \implies Y' = Aice^{icy} \implies Y'' = -Ac^2 e^{icy}$
+\begin{eqnarray*}
+\text{so} \qquad -Ac^2e^{icy} + \alpha^2Ae^{icy} & = & 0\\
+c^2 & = & \alpha^2\\
+c & = & \pm \alpha\\
+\therefore \qquad Y & = & A_1e^{i\alpha y} + A_2e^{-i\alpha y}
+\end{eqnarray*}
+
+With Neumann boundary conditions: $P_x(x,0) = P_x(x, L) = 0 \quad  i.e. \quad  X'(x)Y(0) = X'(x)Y(L) = 0$ 
+
+As X'(x) is not necessarily zero for all x this implies $Y(0) = Y(L) = 0$
+
+\begin{eqnarray*}
+\text{so} \qquad Y(0)  =  A_1e^{i\alpha 0} + A_2e^{-i\alpha 0} & = & Y(L)  =  A_1e^{i\alpha L} + A_2e^{-i\alpha L} = 0 \\
+A_1 + A_2 & = & 0\\
+\implies \qquad A_1 & = & -A_2 \quad (set A_1 = A)\\
+\text{then} \qquad  Ae^{i\alpha L} - Ae^{-i\alpha L} & = & 0 \\
+ Ae^{i\alpha L} & = & Ae^{-i\alpha L}\\
+\alpha & = & -\alpha\\
+\alpha & = & 0
+\end{eqnarray*}
+
+Therefore $Y = A_1 + A_2 = C \quad \forall y \in [0, L]$ 
+
+Which implies $P(x,y) = P(x)$
+
 \end{document}}
