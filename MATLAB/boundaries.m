@@ -10,31 +10,28 @@ function P = boundaries(a,b,f,g)
     alpha = 0; beta = 1;
     %array of coefficients
     coefs = [exp(1i*beta*a) exp(-1i*beta*a); exp(1i*beta*b) exp(-1i*beta*b)];
-    %integrate using midpoint rule
-    %h = ones(n,1)*L/(n-1)
-    %h(1) = h(1)/2;h(n) = h(1);
+    %solve for constants
     An = 1/L*trapz(f)*L/(n-1);
     Bn = 1/L*trapz(g)*L/(n-1);
     %solve system
     bs = coefs\[An;Bn];
     
-    % init x,y arrays
+    %init x,y arrays
     [x,y] = meshgrid(linspace(a,b, 400), linspace(0,L,n));
       
-    % calculate P
+    %calculate P
     P = bs(1)*exp(1i*beta*x) + bs(2)*exp(-1i*beta*x);
         
-    % plot initial wave using the real part of P
+    %plot initial wave using the real part of P
     hold on
     plot = surf(x,y,real(P));
     
-    % label, title etc
+    %label, title etc
     xlabel('x'); ylabel('y'); title('0')
     shading interp;colormap jet;axis([a b 0 L]); %view([45 -45 70])
     
-    % animate by adding on successibe terms of P and updating
+    %animate by adding on successive terms of P and updating
     for j = 1:stop
-        %pause(.05)
         %update alpha, beta and coefs
         alpha = j*pi/L;
         beta = sqrt(k-alpha^2);
@@ -45,7 +42,8 @@ function P = boundaries(a,b,f,g)
         bs = coefs\[An;Bn];
         %calculate new P
         P = P + (bs(1)*exp(1i*beta*x) + bs(2)*exp(-1i*beta*x)).*cos(alpha*y);
-        %update plot
+        %update plot if the error is reduced from previous iteration
+        %this avoids error in the numerical scheme due to approximations
         error = [abs(P(5:n-5,1)'-f(5:n-5)) abs(P(5:n-5,400)'-g(5:n-5))];
         meanerror = mean(error);
         if(meanerror<best)
@@ -54,8 +52,8 @@ function P = boundaries(a,b,f,g)
             title(j);
             best = meanerror;
         end
+        %stop if maximum error is less than tolerance
         if(meanerror<tol)
-            7
             break
         end
         
