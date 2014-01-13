@@ -1,0 +1,167 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\oddsidemargin=-5.00mm
+\textwidth=170.00mm
+\topmargin=-10.00mm
+\textheight=240.00mm
+
+\begin{document}
+% define the title
+\author{Tom Dolan}
+\title{Wave Propagation Through a Waveguide}
+\date{18/12/2013}
+\maketitle
+\newpage
+
+\section{Introduction}
+Initially I am looking at a wave traveling through a simple waveguide comprised of two parallel boundaries at $y = 0$ and $y = L$ with Neumann boundary conditions. \\
+
+\setlength{\unitlength}{4mm}
+\begin{picture}(35,12)
+\put(2.5,2){\line(1,0){35}}
+\put(2.5,12){\line(1,0){35}}
+\put(2.5,2.2){\line(1,0){35}}
+\put(2.5,11.8){\line(1,0){35}}
+\put(5,5){\vector(1,0){3}}
+\put(5,5){\vector(0,1){3}}
+\put(4,7){$y$}
+\put(7,4){$x$}
+\put(38,2){$y = 0$}
+\put(38,12){$y = L$}
+\end{picture}\\
+This can be represented by solving
+\[\nabla\cdot\left(\frac{1}{\rho}\nabla P(x,y)\right) + \frac{\omega^2}{B}P(x,y) = 0 \]
+Where $P(x,y)$ is the pressure inside the waveguide at the point $(x,y)$. As the mass density $\rho$, the angular frequency $\omega$ and the bulk modulus $B$ are all constants the equation becomes:
+\[ \nabla^2 P + k^2 P = 0 \qquad \text{where } k^2 = \frac{\rho\omega^2}{B}\]
+Now seeking a solution of the form $P= X(x)Y(y)$  we get two 2nd order linear ODEs:
+\begin{align*}
+X'' + (k^2 - \alpha^2) X & = 0\tag{1}\\
+\text{and } \qquad Y'' + \alpha^2Y & = 0\tag{2}\\
+\end{align*}
+\begin{align*}
+\text{Solving (2) gives:}\qquad\\
+Y = a_1\cos(\alpha y) + a_2\sin(\alpha y)\\\\
+\text{And given Neumann boundary conditions:}\\
+\frac{\partial P}{\partial \overrightarrow{n}} = 0 \quad \forall \bold{x}\in \partial P
+\implies & (\frac{\partial P}{\partial x}, \frac{\partial P}{\partial y})\cdot(0,1) = 0\\
+\implies & \frac{\partial P}{\partial y} = 0 \quad \text{for } y = 0,L\\
+\implies & Y'(0) = Y'(L) = 0\\
+\\
+Y'(y) = -\alpha a_1\sin(\alpha y) + \alpha a_2\cos(\alpha y)\\
+\text{So} \qquad  Y'(0) = \alpha a_2 = 0  \implies & a_2 = 0\\
+\text{and} \qquad  Y'(L) =  -\alpha a_1\sin(\alpha y) = 0 \implies & \alpha = n\pi/L \qquad \text{for } n \in \mathbb{N}\\
+\end{align*}
+So as there are still unknown constants in $X$, set $Y_n = \cos(\frac{n\pi y}{L})$
+
+Now with $\alpha_n  = n\pi/L$, (1) becomes:
+\begin{align*}
+X_n'' + (k^2 - \left(\frac{n\pi}{L}\right)^2)X_n & = 0 \qquad \forall n \in \mathbb{N}\\
+\text{so} \qquad X_n & = b_{n+}e^{i\beta_n x} + b_{n-}e^{-i\beta_n x} \qquad \left(\text{where $\beta_n = \sqrt{k^2 - \left(\frac{n\pi}{L}\right)^2}$}\right)\\
+\text{so}\qquad  P_n = X_nY_n & = \left(b_{n+}e^{i\beta_n x} + b_{n-}e^{-i\beta_n x}\right)\cos(\alpha_n y)\\
+ \end{align*}
+And as the PDE is linear the full solution is the sum of all $P_n$
+\[i.e.\qquad P = \sum_{n\in\mathbb{N}}P_n = \sum_{n\in\mathbb{N}}X_nY_n\]
+
+\section{properties of $P_n$}
+\begin{align*}
+\text{If we write} \qquad Y_n & = \cos(\alpha_ny) = \frac{1}{2}\left(e^{i\alpha_ny}+e^{-i\alpha_ny}\right)\\
+P_n & = X_nY_ne^{-i\omega t}\\
+& = \frac{1}{2}\Big(b_{n+}e^{i\beta_nx + i\alpha_ny - i\omega t} + b_{n+}e^{i\beta_nx - i\alpha_ny - i\omega t} \\
+& \quad + b_{n-}e^{-(i\beta_nx + i\alpha_ny + i\omega t)}+ b_{n-}e^{-(i\beta_nx - i\alpha_ny + i\omega t)}\Big) \\
+\text{Now let } \qquad P_{n+} & = \frac{b_{n+}}{2}\Big(e^{i\beta_nx + i\alpha_ny - i\omega t} + e^{i\beta_nx - i\alpha_ny - i\omega t}\Big) \\
+\text{And} \qquad P_{n-} & = \frac{ b_{n-}}{2}\Big(e^{-(i\beta_nx + i\alpha_ny + i\omega t)}+e^{-(i\beta_nx - i\alpha_ny + i\omega t)}\Big) \\
+\end{align*}
+$P_{n+}$ is a wave traveling left along the x axis and $P_{n-}$ is the same wave traveling right. The two waves act exactly the same so we will look only at $P_{n+}$\\\\
+What we want is for terms of $P_{n+}$ to be of the form $e^{i\cos(\psi)x \pm i\sin(\psi)y - i\omega t}$ as this is a simple plane wave traveling at an angle of $\psi$ to the x axis. Now, for k = 1, $\alpha_n = \frac{n\pi}{L}$ and $\beta_n = \sqrt{1-\left(\frac{n\pi}{L}\right)^2} = \sqrt{1-\alpha_n^2}$.  
+\begin{align*}
+\text{so if }\quad \alpha_n & = \sin(\psi_n) \qquad \implies \alpha_n\le1\\
+\text{then } \quad \beta_n & = \sqrt{1-\alpha_n^2}\\
+& = \sqrt{1-sin(\psi_n)^2}\\
+& = \cos(\psi_n) \qquad \text{for } -\pi/2 \ge \psi_n \ge \pi/2\\\\
+\implies P_n & =  \frac{1}{2}\Big(b_{n+}e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + b_{n+}e^{i\cos(\psi_n)x - i\sin(\psi_n)y - i\omega t}\Big) \\
+& = \frac{1}{2}\Big(b_{n+}e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + b_{n+}e^{i\cos(-\psi_n)x + i\sin(-\psi_n)y - i\omega t}\Big) \\
+\end{align*}
+So $P_{n+} = \frac{b_{n+}}{2}\Big(e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + e^{i\cos(-\psi_n)x + i\sin(-\psi_n)y - i\omega t}\Big)$ which is the sum of two plane waves traveling at angles of $\psi_n$ and $-\psi_n$ to the x axis, with $-\pi/2\ge\psi_n\ge\pi/2$ (figure~\ref{fig:twowaves}). 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{4}
+    \includegraphics[width=0.4\textwidth]{5}
+    \caption{two plane waves traveling at angles of $\psi$ and $-\psi$ to the $x$ axis.}
+    \label{fig:twowaves}
+\end{figure}
+This corresponds to (figure~\ref{fig:combination}), a traveling wave with nodal lines, along which $P_n = 0$ initially at:
+\begin{align*}
+x & = \frac{\pi(2l-1)}{2\cos(\psi_n)} \qquad \text{for } l \in \mathbb{Z}\\
+\text{and} \qquad y & = \frac{\pi(2k-1)}{2\sin(\psi_n)} \qquad \text{for } k = 1, \ldots, n \text{ and } n>0
+\end{align*}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{1}
+    \caption{Combination of the two plane waves}
+    \label{fig:combination}
+\end{figure}
+
+For $n = 0$ there are no nodal lines in the $x$ direction as the two plane waves are equal so the resultant wave is the same plane wave traveling left along the x axis (figure~\ref{fig:psi0}).\\\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{6}
+    \caption{$\psi = 0$, corresponds to a wave traveling left along the $x$ axis}
+    \label{fig:psi0}
+\end{figure}
+
+As $|e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t}|$ and $|e^{i\cos(-\psi_n)x + i\sin(-\psi_n)y - i\omega t}|$ are bounded by 1, $|P_{n+}|$ is bounded by $b_{n+}$. \\\\
+For $\alpha_n\ge1 $ we have $ \beta_n = \sqrt{1-\alpha_n^2} = i\sqrt{\alpha_n^2 - 1} = i\gamma_n$ where $\gamma_n$ is a real constant. so:
+\[P_{n+} =  \frac{b_{n+}}{2}\Big(e^{-\gamma_nx + i\alpha_ny - i\omega t} +e^{-\gamma_nx - i\alpha_ny - i\omega t}\Big) = \frac{b_{n+}}{2}e^{-\gamma_nx}\Big(e^{i\alpha_ny - i\omega t} +e^{- i\alpha_ny - i\omega t}\Big)\]
+Which has no wave property in the x direction but now has exponential growth/decay (figure~\ref{fig:exponential}). 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{7}
+    \caption{$\alpha \ge 1$, the $X$ component is now exponential}
+    \label{fig:exponential}
+\end{figure}
+
+\section{Boundary Conditions}
+\[P_{n\pm}(x,y) = b_{n\pm}e^{\pm i\beta_nx}\cos(\frac{n\pi y}{L})\]
+\[P(x,y) = \sum_{n\in\mathbb{N}}P_{n+}(x,y) + P_{n-}(x,y)\]
+If we add two more boundary conditions we can solve for the final two constants, so set $P(a,y) = f(y)$ and $P(b,y) = g(y)$. 
+so at $x = a$:
+\begin{align*}
+P(a,x)  = & \sum_{n\in\mathbb{N}}P_{n+}(a,y) + P_{n-}(a,y) = f(y)\\
+\implies & \sum_{n\in\mathbb{N}}\left(b_{n+}e^{i\beta_na} + b_{n-}e^{-i\beta_na}\right)\cos(\frac{n\pi y}{L}) = f(x)\\
+\text{So } & \sum_{n\in\mathbb{N}}A_n\cos(\frac{n\pi y}{L}) = f(x)\\
+\end{align*}
+which is the fourier series for $f(x)$
+\[\text{So}\qquad A_0 = \frac{1}{L}\int^L_0f(y)dy \qquad \text{and} \qquad A_{m \ne 0} = \frac{2}{L}\int^L_0f(y)\cos(\frac{m\pi y}{L})dy\]
+And similarly for $B_m$ at $x = b$\\\\
+Now: 
+\[\qquad b_{n+}e^{i\beta_na} + b_{n-}e^{-i\beta_na} = A_n \qquad \text{and}\qquad b_{n+}e^{i\beta_nb} + b_{n-}e^{-i\beta_nb} = B_n\]
+which is just a system of two equations with two unknowns which is easily approximated numerically. \\
+
+The simplest example, setting the boundary conditions to be constant, means only the first mode's amplitude will be nonzero in the solution (figure~\ref{fig:f0g1}).
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{11}
+    \caption{Boundary conditions $f(y) = 0$, $g(y) = 1$}
+    \label{fig:f0g1}
+\end{figure}
+However, more complicated and not necessarily continuous functions are also valid boundary conditions (figure~\ref{fig:fsingstep}). 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{8}
+    \includegraphics[width=0.45\textwidth]{9}
+    \caption{In this case $f(y)$ is a sin wave, $g(y)$ is a step function}
+    \label{fig:fsingstep}
+\end{figure}
+
+\begin{thebibliography}{9}
+
+\bibitem{lamport94}
+    Agn\`es Maurel, Jean-Fran\c cois Mercier, Simon F\'elix
+    \emph{Wave propagation through penetrable scatterers in a waveguide and through a penetrable grating}.
+    2013
+
+\end{thebibliography}
+\end{document}}
+

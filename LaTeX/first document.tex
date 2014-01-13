@@ -72,5 +72,83 @@ A_1 + A_2 & = & 0\\
 Therefore $Y = A_1 + A_2 = C \quad \forall y \in [0, L]$ 
 
 Which implies $P(x,y) = P(x)$
+\pagebreak
 
+\section{restarting\ldots}
+\setlength{\unitlength}{4mm}
+\begin{picture}(35,5)
+\put(2.5,0){\line(1,0){30}}
+\put(2.5,5){\line(1,0){30}}
+\put(2.5,0.1){\line(1,0){30}}
+\put(2.5,4.9){\line(1,0){30}}
+\put(5,1){\vector(1,0){3}}
+\put(5,1){\vector(0,1){3}}
+\put(5.2,4){$y$}
+\put(8.2,1){$x$}
+\put(33,0){$y = L$}
+\put(33,5){$y = 0$}
+\end{picture}
+\begin{align*}
+\nabla\cdot\left(\frac{1}{\rho}\nabla P\right) + \frac{\omega^2}{B}P & = 0 \\
+\text{So} \qquad \nabla^2 P + k^2 P & = 0 \\
+\frac{\partial^2 P}{\partial x^2} + \frac{\partial^2 P}{\partial y^2} + k^2 P & = 0\\\\
+\text {So if $P = X(x)Y(y)$, then }\nabla^2 P & = X''Y + XY''\\
+\text{So} \qquad \frac{X''}{X} + \frac{Y''}{Y} + k^2 & = 0\\
+i.e. \qquad \frac{X''}{X} + k^2 = -\frac{Y''}{Y} & = \alpha^2\\\\
+\text{So we have two 2nd order linear ODEs:}\\
+\frac{X''}{X} + k^2 &= \alpha^2\\
+X'' + (k^2 - \alpha^2) X & = 0\tag{1}\\ \\
+\text{and}\qquad\qquad -\frac{Y''}{Y} & = \alpha^2\\
+Y'' + \alpha^2Y & = 0\tag{2}\\\\
+\text{Solving (2) gives:}\qquad\\
+Y = a_1cos(\alpha y) + a_2sin(\alpha y)\\\\
+\text{And given Neumann boundary conditions:}\\
+\frac{\partial P}{\partial \overrightarrow{n}} = 0 \quad \forall \bold{x}\in \partial P
+\implies & (\frac{\partial P}{\partial x}, \frac{\partial P}{\partial y})\cdot(0,1) = 0\\
+\implies & \frac{\partial P}{\partial y} = 0 \quad \text{for } y = 0,L\\
+\implies & Y'(0) = Y'(L) = 0\\
+\\
+Y'(y) = -\alpha a_1\sin(\alpha y) + \alpha a_2\cos(\alpha y)\\
+\text{So} \qquad  Y'(0) = \alpha a_2 = 0  \implies & a_2 = 0\\
+\text{and} \qquad  Y'(L) =  -\alpha a_1\sin(\alpha y) = 0 \implies & \alpha = n\pi/L \qquad \text{for } n \in \mathbb{N}\\\\
+\text{So as there are still unknown constants in X, set } Y_n & = \cos(\frac{n\pi y}{L})
+\end{align*}
+
+Now with $\alpha_n  = n\pi/L$, (1) becomes:
+\begin{align*}
+X'' + (k^2 - \left(\frac{n\pi}{L}\right)^2)X & = 0 \qquad \forall n \in \mathbb{N}\\
+\text{so} \qquad X_n & = b_{n+}e^{i\beta_n x} + b_{n-}e^{-i\beta_n x} \qquad \left(\text{where $\beta_n = \sqrt{k^2 - \left(\frac{n\pi}{L}\right)^2}$}\right)\\
+\text{so}\qquad  P_n = X_nY_n & = \left(b_{n+}e^{i\beta_n x} + b_{n-}e^{-i\beta_n x}\right)\cos(\alpha_n y)\\
+\text{set } k = 1 \implies P_n & = \left(b_{n+}e^{i\sqrt{1 - \left(\frac{n\pi}{L}\right)^2}x} + b_{n-}e^{-i\sqrt{1 - \left(\frac{n\pi}{L}\right)^2}x}\right)\cos(\frac{n\pi y}{L})\\
+\end{align*}
+
+The $Y_n$ component of $P_n$ will always be $\cos(n\pi y/L)$ and then if $L>n$ then $\beta_n$ is real so the $X_n$ component takes the form $c_1\cos(\beta_n x) + c_2\sin(\beta_nx)$. \\\\
+ If $L< n$ then $\beta_n$ is imaginary so the $X_n$ component takes the form $b_{n+}e^{\gamma x}+ b_{n-}e^{-\gamma x}$. \\\\
+\begin{align*}
+Y_n & = \cos(\alpha_ny) = \frac{1}{2}\left(e^{i\alpha_ny}+e^{-i\alpha_ny}\right)\\
+\text{So } P_n & = X_nY_ne^{-i\omega t}\\
+& = \frac{1}{2}\left(b_{n+}e^{i\beta_nx}+b_{n-}e^{-i\beta_nx}\right)\left(e^{i\alpha_ny}+e^{-i\alpha_ny}\right)e^{-i\omega t} \\
+& = \frac{1}{2}\Big(b_{n+}e^{i\beta_nx + i\alpha_ny - i\omega t} + b_{n+}e^{i\beta_nx - i\alpha_ny - i\omega t} \\
+& \quad+ b_{n-}e^{-i\beta_nx + i\alpha_ny - i\omega t} + b_{n-}e^{-i\beta_nx - i\alpha_ny - i\omega t}\Big) \\
+\end{align*}
+Now, $\alpha_n = \frac{n\pi}{L}$ and $\beta_n = \sqrt{1-\left(\frac{n\pi}{L}\right)^2} = \sqrt{1-\alpha_n^2}$.  What we want is for terms of $P_n$ to be of the form $ae^{i\cos(\psi)x + i\sin(\psi)y - i\omega t}$ as this is a simple plane wave traveling at an angle of $\psi$ to the x axis
+\begin{align*}
+\text{so if } \alpha_n & = \sin(\psi_n)\\
+\alpha_n^2 & = \sin^2(\psi_n)\\
+\alpha_n^2 + \cos^2(\psi_n) & = 1\\
+\cos(\psi_n) & = \sqrt{1-\alpha_n^2}\\
+& = \beta_n\\\\
+\implies P_n & =  \frac{1}{2}\Big(b_{n+}e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + b_{n+}e^{i\cos(\psi_n)x - i\sin(\psi_n)y - i\omega t} \\
+& \quad+ b_{n-}e^{-i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + b_{n-}e^{-i\cos(\psi_n)x - i\sin(\psi_n)y - i\omega t}\Big) \\
+& = \frac{1}{2}\Big(b_{n+}e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + b_{n+}e^{i\cos(-\psi_n)x + i\sin(-\psi_n)y - i\omega t} \\
+& \quad+ b_{n-}e^{-(i\cos(-\psi_n)x + i\sin(-\psi_n)y + i\omega t)} + b_{n-}e^{-(i\cos(\psi_n)x + i\sin(\psi_n)y + i\omega t)}\Big) \\
+\end{align*}
+So if $b_{n+} = 1$ and $b_{n-} = 0$ then:\\
+$P = \frac{1}{2}\Big(e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t} + e^{i\cos(-\psi_n)x + i\sin(-\psi_n)y - i\omega t}\Big)$ which is the sum of two plane waves traveling at angles of $\psi_n$ and $-\psi_n$ to the x axis. This corresponds to a traveling wave with nodal lines, where $P = 0$ and $t = 0$ at:
+\begin{align*}
+y &= \frac{\pi(2k-1)}{2\alpha} \qquad \text{for } k = 1, \ldots, n\\
+\text{and } x & = \frac{\pi(2l-1)}{2\beta} \qquad \text{for } l \in \mathbb{Z}\\
+\end{align*}
+As $|e^{i\cos(\psi_n)x + i\sin(\psi_n)y - i\omega t}|$ and $|e^{i\cos(-\psi_n)x + i\sin(-\psi_n)y - i\omega t}|$ are bounded by 1, half their sum, i.e. $|P|$ is bounded by 1. 
 \end{document}}
+
